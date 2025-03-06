@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": ["./*"]
+    }
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/pages/super-admin/create-school-admin/page.js", "app/components/Header.js", "app/components/Sidebar.js", "app/components/headerSidebar/Logout.js", "app/pages/admission/page.js", "app/pages/admission/add/page.js", "app/pages/admission/edit/[id].js", "app/pages/students/page.js", "app/pages/students/id-card/page.js", "app/pages/students/promotion/page.js"],
+  "exclude": ["node_modules"]
+}
