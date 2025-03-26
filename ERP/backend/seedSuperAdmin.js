@@ -1,4 +1,4 @@
-// backend/seedSuperAdmin.js
+
 require('dotenv').config(); // If you're using .env for MONGO_URI, etc.
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
@@ -23,6 +23,7 @@ async function seedSuperAdmin() {
     const superAdmin = new User({
       email: 'superadmin@example.com',
       password: bcrypt.hashSync('superpass', 10),
+      schoolId:"1",
       role: 'SUPER_ADMIN',
       isActive: true,
     });

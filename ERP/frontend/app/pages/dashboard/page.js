@@ -17,6 +17,7 @@ import BookTransactionPage  from '../library/BookIssue/page.js'
 import SubjectPage from '../subject/page.js'
 import ClassRoutinePage from '../classRoutine/page.js'
 import AttendancePage from '../attendance/page.js';
+import TransportPage from "../transport/page.js";
 const Dashboard = () => {
   const { token, user } = useSelector((state) => state.auth);
   const router = useRouter();
@@ -66,6 +67,7 @@ const Dashboard = () => {
   // Dynamic content for main area based on the current page
   const renderContent = () => {
     switch (currentPage) {
+
       case "home":
         return <HomePage />;
       case "admission":
@@ -97,6 +99,9 @@ const Dashboard = () => {
 
               case "attendance":
                 return <AttendancePage />;
+
+                case "transport":
+                return <TransportPage />;
       default:
         return <p>Content for {currentPage} is not defined.</p>;
     }
@@ -112,7 +117,7 @@ const Dashboard = () => {
         <div className="flex justify-center">
           <button
             className="bg-green-500 text-white px-4 py-2 mt-4 rounded"
-            onClick={() => handlePageChange("manage-school-admins")}
+            onClick={() => handlePageChange("/pages/super-admin")}
           >
             Go to Super Admin Panel
           </button>

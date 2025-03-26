@@ -24,6 +24,11 @@ import subjectReducer from './subjectSlice';
 import classRoutineReducer from './classRoutineSlice';
 import teacherAttendanceReducer from './attendanceSlice';
 import examScheduleReducer from './examScheduleSlice';
+import transportReducer from './transportSlice';
+
+
+
+
 const persistConfig = {
   key: 'root',
   storage,
@@ -46,7 +51,7 @@ const store = configureStore({
     classRoutine: classRoutineReducer,
     teacherAttendance: teacherAttendanceReducer,
     examSchedules: examScheduleReducer,
-
+    transportSystem: transportReducer,
 
 
     // Add other reducers here if needed

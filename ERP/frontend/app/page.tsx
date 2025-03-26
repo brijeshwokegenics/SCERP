@@ -1,5 +1,5 @@
-// frontend/pages/index.js
-"use client";
+'use client';
+
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../store/authSlice';
@@ -8,22 +8,21 @@ import { useRouter } from 'next/navigation';
 export default function Home() {
   const dispatch = useDispatch();
   const router = useRouter();
+
   const { token, user, status, error } = useSelector((state) => state.auth);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-
-
   useEffect(() => {
-    // If we already have a token, navigate to dashboard
     if (token && user) {
-      router.push('/pages/dashboard');
+      router.push('/pages/dashboard'); // ✅ Final working path
     }
   }, [token, user, router]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log("📨 Submitting login form", email, password);
     dispatch(loginUser({ email, password }));
   };
 

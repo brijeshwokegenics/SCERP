@@ -13,8 +13,7 @@ const paymentRoutes = require('./routes/paymentRoutes');
 const libraryRoutes = require('./routes/libraryRoutes');
 const subjectRoutes = require( './routes/subjectRoutes'); 
 const classRoutineRoutes = require('./routes/classRoutineRoutes');
-const teacherAttendanceRoutes = require('./routes/attendanceRoutes');
-const examScheduleRoutes = require('./routes/examScheduleRoutes');
+const transportRoutes = require('./routes/transportRoutes');
 // Connect to MongoDB
 mongoose
   .connect(process.env.MONGO_URI, {
@@ -45,8 +44,7 @@ app.use('/api/', paymentRoutes)
 app.use('/api/library', libraryRoutes);
 app.use("/api/subjects", subjectRoutes); 
 app.use("/api/class-routines", classRoutineRoutes);
-// app.use("/api/teacher-attendance", teacherAttendanceRoutes);
-app.use('/api/exam-schedules', examScheduleRoutes);
+app.use('/api/transports', transportRoutes);
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
