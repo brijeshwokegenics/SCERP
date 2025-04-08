@@ -72,12 +72,14 @@ const menuItems = [
   {
     label: "Accounts",
     icon: <CurrencyRupeeIcon className="h-5 w-5" />,
-    key: "accounts",
+    key: "accounts" || "payment",
     subItems: [
       { label: "Add Fees", href: "/accounts/add-fee" },
-      { label: "Add Expenses", href: "/accounts/add-expense" },
       { label: "All Fee Collection", href: "/accounts/all-fee-details" },
-      { label: "Expenses", href: "/accounts/expenses" },
+      { label: "Other Payment", href: "/payment/other-payment" },  
+      { label: "Income", href: "/payment/income" },  
+      { label: "Expense", href: "/payment/expense" },
+     
     ],
   },
   {
@@ -85,7 +87,7 @@ const menuItems = [
     icon: <ClipboardCheckIcon className="h-5 w-5" />,
     key: "class",
     subItems: [
-      { label: "Add Class", href: "/class/add-new-class" },
+      { label: "Class", href: "/class" },
       { label: "All Class", href: "/class/all-class" },
     ],
   }, {
@@ -111,6 +113,8 @@ const menuItems = [
   { label: "Transport", icon: <TruckIcon className="h-5 w-5" />, href: "/transport" },
   { label: "Hostel", icon: <OfficeBuildingIcon className="h-5 w-5" />, href: "/hostel" },
   { label: "Notice", icon: <BellIcon className="h-5 w-5" />, href: "/notice" },
+  { label: "Notifications", icon: <BellIcon className="h-5 w-5" />, href: "/notification" },
+  { label: "Holiday", icon: <BellIcon className="h-5 w-5" />, href: "/holiday" },
   { label: "Message", icon: <ChatIcon className="h-5 w-5" />, href: "/message" },
   {
     label: "Other Pages",

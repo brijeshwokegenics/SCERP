@@ -18,6 +18,20 @@ import SubjectPage from '../subject/page.js'
 import ClassRoutinePage from '../classRoutine/page.js'
 import AttendancePage from '../attendance/page.js';
 import TransportPage from "../transport/page.js";
+import NoticePage from "../notice/page.js";
+import NotificationPage from "../notification/page.js";
+import MessagePage from "../message/page.js";
+import HolidayPage from "../holiday/page.js";
+import HostelPage from "../hostel/page.js";
+import AddFeePaymentForm from "../accounts/add-fee/page.js";
+import ExpenseForm from '../payment/expense/page.js'
+import IncomeForm from "../payment/income/page.js";
+import OtherPaymentForm from "../payment/otherPayment/page.js";
+import ClassPage from "../class/class/page.js";
+
+
+
+
 const Dashboard = () => {
   const { token, user } = useSelector((state) => state.auth);
   const router = useRouter();
@@ -76,32 +90,58 @@ const Dashboard = () => {
         return <p>Manage School Admins Content Here.</p>;
       case "students":
         return <StudentsManagementPage />;
-        case "students/id-card":
-          return <StudentIDCardsPage />;
-          case "students/promotion":
-          return <StudentsPromotionPage />;
-  
-     case "school":
-          return <SchoolManagementPage />;
+      case "students/id-card":
+        return <StudentIDCardsPage />;
+      case "students/promotion":
+        return <StudentsPromotionPage />;
+
+      case "school":
+        return <SchoolManagementPage />;
       case "teachers":
-        return <TeachersPage/>;
-        case "payment":
-          return <PaymentPage/>;
+        return <TeachersPage />;
+      case "payment":
+        return <PaymentPage />;
       case "library":
         return <LibraryPage />;
-        case "library/issuebook":
-          return <BookTransactionPage />;
-          case "subject":
-            return <SubjectPage />;
+      case "library/issuebook":
+        return <BookTransactionPage />;
+      case "subject":
+        return <SubjectPage />;
 
-        case "classroutine":
-              return <ClassRoutinePage />;
+      case "classroutine":
+        return <ClassRoutinePage />;
 
-              case "attendance":
-                return <AttendancePage />;
+      case "attendance":
+        return <AttendancePage />;
 
-                case "transport":
-                return <TransportPage />;
+      case "transport":
+        return <TransportPage />;
+
+      case "notice":
+        return <NoticePage />;
+
+      case "message":
+        return <MessagePage />
+
+      case "notifications":
+        return <NotificationPage />  
+        case "holiday":
+          return <HolidayPage />  
+       case "hostel":
+        return <HostelPage/> 
+        case "accounts/add-fee":
+          return <AddFeePaymentForm/>  
+       case "payment/expense":
+        return <ExpenseForm />   
+        case "payment/income":
+          return <IncomeForm />
+          case "payment/other-payment":
+          return <OtherPaymentForm />
+
+          case "class":
+            return <ClassPage />
+          
+
       default:
         return <p>Content for {currentPage} is not defined.</p>;
     }

@@ -14,6 +14,29 @@ const libraryRoutes = require('./routes/libraryRoutes');
 const subjectRoutes = require( './routes/subjectRoutes'); 
 const classRoutineRoutes = require('./routes/classRoutineRoutes');
 const transportRoutes = require('./routes/transportRoutes');
+const noticeRoutes = require('./routes/noticeRoutes');
+const messageRoutes = require('./routes/messageRoutes');
+const notificationRoutes = require('./routes/notificationRoutes');
+const holidayRoutes = require('./routes/holidayRoutes');
+const hostelRoutes = require('./routes/hostelRoutes');
+const roomRoutes = require("./routes/roomRoutes");
+const bedRoutes = require("./routes/bedRoutes");
+const feePaymentRoutes = require('./routes/feePaymentRoutes');
+const expenseRoutes = require('./routes/expenseRoute');
+const otherPaymentRoutes = require("./routes/otherPaymentRoutes");
+const incomeRoutes = require("./routes/incomeRoutes")
+const StudentClassRoutineRoute =  require("./routes/studentClassRoutineRoutes");
+const classRoutes = require('./routes/classRoutes')
+
+
+const path = require('path');
+const fs = require('fs');
+const StudentClassRoutine = require('./models/StudentClassRoutine');
+const uploadPath = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadPath)) {
+  fs.mkdirSync(uploadPath);
+}
+
 // Connect to MongoDB
 mongoose
   .connect(process.env.MONGO_URI, {
@@ -31,6 +54,7 @@ const corsOptions = {
     credentials: true,
   }
 
+
 app.use(cors(corsOptions)); 
 app.use(express.json());
 
@@ -45,6 +69,21 @@ app.use('/api/library', libraryRoutes);
 app.use("/api/subjects", subjectRoutes); 
 app.use("/api/class-routines", classRoutineRoutes);
 app.use('/api/transports', transportRoutes);
+app.use('/api', noticeRoutes);
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/api/messages', messageRoutes);
+app.use('/api/notifications', notificationRoutes);
+app.use('/api/holidays', holidayRoutes);
+app.use('/api/hostels', hostelRoutes);
+app.use('/api/rooms', roomRoutes);
+app.use('/api/beds', bedRoutes);
+app.use('/api/fee-payments', feePaymentRoutes);
+app.use('/api/expenses', expenseRoutes);
+app.use('/api/other-payment', otherPaymentRoutes);
+app.use('/api/income', incomeRoutes);
+app.use('/api/student-class-routine', StudentClassRoutineRoute);
+app.use('/api/class', classRoutes);
+
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {

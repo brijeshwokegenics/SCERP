@@ -12,13 +12,6 @@ const bookSchema = new mongoose.Schema({
     authorbirthdate: { type: Date }
 }, { timestamps: true });
 
-
-
-
-
-
-
-
 const Book = mongoose.model('Book', bookSchema);
 module.exports = Book;
 

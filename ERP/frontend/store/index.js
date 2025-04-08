@@ -25,7 +25,18 @@ import classRoutineReducer from './classRoutineSlice';
 import teacherAttendanceReducer from './attendanceSlice';
 import examScheduleReducer from './examScheduleSlice';
 import transportReducer from './transportSlice';
-
+import noticeReducer from './noticeSlice';
+import messageReducer from './messageSlice';
+import notificationReducer from './notificationSlice';
+import holidayReducer from './holidaySlice';
+import hostelReducer from './hostelSlice';
+import bedReducer from './bedSlice';
+import roomReducer from './roomSlice';
+import feePaymentsReducer from './feePaymentSlice';
+import incomeReducer from './incomeSlice';
+import expenseReducer from './expenseSlice';
+import otherPaymentReducer from './otherPaymentSlice';
+import classReducer from './classSlice';
 
 
 
@@ -52,6 +63,19 @@ const store = configureStore({
     teacherAttendance: teacherAttendanceReducer,
     examSchedules: examScheduleReducer,
     transportSystem: transportReducer,
+    notices: noticeReducer,
+    messages: messageReducer,
+    notifications: notificationReducer,
+    holiday: holidayReducer,
+    bed: bedReducer,
+    room: roomReducer,
+    hostel: hostelReducer,
+    feePayments: feePaymentsReducer,
+    incomer: incomeReducer,
+    expense: expenseReducer,
+    otherPayment: otherPaymentReducer,
+    class: classReducer,
+
 
 
     // Add other reducers here if needed
