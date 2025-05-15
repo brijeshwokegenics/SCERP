@@ -127,9 +127,18 @@ const librarySlice = createSlice({
   extraReducers: (builder) => {
     builder
       // Books
-      .addCase(fetchBooks.fulfilled, (state, action) => {
+      .addCase(fetchBooks.pending, (state) => {
         state.loading = true;
-        state.books = action.payload; })
+        state.error = null;
+      })
+      .addCase(fetchBooks.fulfilled, (state, action) => {
+        state.loading = false;
+        state.books = action.payload;
+      })
+      .addCase(fetchBooks.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload || 'Failed to fetch books';
+      })
       .addCase(createBook.fulfilled, (state, action) => {
         state.loading = true;
         state.books.push(action.payload); })

@@ -14,7 +14,11 @@ const classSchema = new mongoose.Schema({
   studentCapacity: {
     type: Number,
     required: true
-  }
+  },
+  ClassSection: [{
+    type: String,
+  
+  }]
 }, { timestamps: true });
 
 module.exports = mongoose.model('Classes', classSchema);

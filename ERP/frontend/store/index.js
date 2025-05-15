@@ -18,7 +18,7 @@ import studentsReducer from './studentsSlice';
 import schoolsReducer from './schoolSlice';
 import promoteReducer from './promotionSlice';
 import teacherReducer from'./teacherSlice';
-import paymentReducer from './paymentSlice';
+// import paymentReducer from './paymentSlice';
 import libraryReducer from './librarySlice';
 import subjectReducer from './subjectSlice';
 import classRoutineReducer from './classRoutineSlice';
@@ -37,7 +37,19 @@ import incomeReducer from './incomeSlice';
 import expenseReducer from './expenseSlice';
 import otherPaymentReducer from './otherPaymentSlice';
 import classReducer from './classSlice';
+import examReducer from './examSlice';
+import termCategoryReducer from './termCategorySlice';
+import examHallReducer from './examHallSlice';
+import markReducer from './markSlice';
+import gradeReducer from './gradeSlice';
+import attendanceReducer from './attendanceSlice';
+import feeComponentReducer from'./feeComponentSlice';
+// import feeStructureReducer from './feeStructureSlice';
 
+import feeStructureReducer from './fee/feeStructureSlice';
+import studentFeeReducer from './fee/studentFeeSlice';
+import paymentReducer from './fee/paymentSlice';
+import reportReducer from './fee/reportSlice';
 
 
 const persistConfig = {
@@ -56,7 +68,7 @@ const store = configureStore({
     schools: schoolsReducer,
     promotes: promoteReducer,
     teachers: teacherReducer,
-    payments: paymentReducer,
+    // payments: paymentReducer,
     library: libraryReducer,
     subjects: subjectReducer,
     classRoutine: classRoutineReducer,
@@ -75,6 +87,21 @@ const store = configureStore({
     expense: expenseReducer,
     otherPayment: otherPaymentReducer,
     class: classReducer,
+    exam : examReducer,
+    termCategory: termCategoryReducer,
+    examHall: examHallReducer,
+    marks: markReducer,
+    grades: gradeReducer,
+    attendance: attendanceReducer,
+    feeComponent: feeComponentReducer,
+    // feeStructure: feeStructureReducer,
+    
+
+
+    feeStructure: feeStructureReducer,
+    studentFee: studentFeeReducer,
+    payment: paymentReducer,
+    report: reportReducer,
 
 
 

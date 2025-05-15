@@ -76,6 +76,7 @@ const teacherSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+  
       .addCase(fetchTeachers.pending, (state) => {
         state.loading = true;
         state.error = null;

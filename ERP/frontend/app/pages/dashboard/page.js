@@ -16,7 +16,6 @@ import LibraryPage from '../library/page.js';
 import BookTransactionPage  from '../library/BookIssue/page.js'
 import SubjectPage from '../subject/page.js'
 import ClassRoutinePage from '../classRoutine/page.js'
-import AttendancePage from '../attendance/page.js';
 import TransportPage from "../transport/page.js";
 import NoticePage from "../notice/page.js";
 import NotificationPage from "../notification/page.js";
@@ -28,9 +27,14 @@ import ExpenseForm from '../payment/expense/page.js'
 import IncomeForm from "../payment/income/page.js";
 import OtherPaymentForm from "../payment/otherPayment/page.js";
 import ClassPage from "../class/class/page.js";
-
-
-
+import AddExamForm from "../exam/exam/page.js";
+import ExamHallPage from "../exam/exam-hall/page.js";
+import ManageMarksPage from "../exam/marks/page.js"
+import GradeForm from "../exam/grade/page.js";
+import AttendancePage from "../attendance/student-attendance/page.js"
+import TeacherAttendancePage from "../attendance/teacher-attendance/page.js"
+import DashboardPage from "./main/page.js";
+import TeacherDashboardPage from "./teacher-dashboard/page.js";
 
 const Dashboard = () => {
   const { token, user } = useSelector((state) => state.auth);
@@ -84,6 +88,10 @@ const Dashboard = () => {
 
       case "home":
         return <HomePage />;
+      case "dashboard":
+        return   <DashboardPage/>
+        case "teachers-dashboard":
+          return   <TeacherDashboardPage/>
       case "admission":
         return <AdmissionManagementPage />
       case "manage-school-admins":
@@ -140,7 +148,23 @@ const Dashboard = () => {
 
           case "class":
             return <ClassPage />
-          
+
+          case "exam/exam":
+            return   <AddExamForm />
+
+            case "exam/exam-hall":
+              return   <ExamHallPage />
+
+              case "exam/marks":
+                return   <ManageMarksPage />
+          case "exam/grade":
+          return <GradeForm />
+
+          case "attendance/student-attendance":
+            return <AttendancePage />
+
+            case "attendance/teacher-attendance":
+              return <TeacherAttendancePage />
 
       default:
         return <p>Content for {currentPage} is not defined.</p>;

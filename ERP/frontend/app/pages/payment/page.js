@@ -192,7 +192,6 @@ const PaymentPage = () => {
         </button>
       </div>
 
-   
    {/* Payment History */}
 <h2 className="text-xl font-bold mt-6">Payment History</h2>
 <div className="mt-4 overflow-x-auto">

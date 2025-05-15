@@ -3,55 +3,58 @@ const mongoose = require('mongoose');
 const ExamSchema = new mongoose.Schema({
   examName: {
     type: String,
-    required: true
+    required: true,
   },
   className: {
-    type: String,
-    required: true
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Class',
+    required: true,
   },
   sectionName: {
-    type: String
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Section',
+    required: true,
   },
-  examTerm: [{
-    type: String,
-    required: true
-  }],
-  passingMarks: {
-    type: Number,
-    required: true
+  examTerm: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'TermCategory',
+    required: true,
   },
   totalMarks: {
     type: Number,
-    required: true
+    required: true,
+  },
+  passingMarks: {
+    type: Number,
+    required: true,
   },
   examStartDate: {
     type: Date,
-    required: true
+    required: true,
   },
   examEndDate: {
     type: Date,
-    required: true
+    required: true,
   },
   examComment: {
-    type: String
+    type: String,
   },
   examSyllabus: {
-    type: String // Path or URL to the uploaded file
+    type: String, // This will be a file path or URL to the uploaded file
   },
-  sendMailToParentsAndStudents: {
+  notifyByMail: {
     type: Boolean,
-    default: false
+    default: false,
   },
-  sendSMSToStudents: {
+  notifyBySMSStudents: {
     type: Boolean,
-    default: false
+    default: false,
   },
-  sendSMSToParents: {
+  notifyBySMSParents: {
     type: Boolean,
-    default: false
+    default: false,
   }
-}, {
-  timestamps: true
-});
+}, { timestamps: true });
 
 module.exports = mongoose.model('Exam', ExamSchema);
+

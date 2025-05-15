@@ -8,36 +8,36 @@ exports.createExam = async (req, res) => {
       className,
       sectionName,
       examTerm,
-      passingMarks,
       totalMarks,
+      passingMarks,
       examStartDate,
       examEndDate,
       examComment,
-      sendMailToParentsAndStudents,
-      sendSMSToStudents,
-      sendSMSToParents
+      notifyByMail,
+      notifyBySMSStudents,
+      notifyBySMSParents
     } = req.body;
 
-    const examSyllabus = req.file ? req.file.filename : null;
+    const examSyllabus = req.file ? req.file.path : null;
 
-    const newExam = new Exam({
+    const exam = new Exam({
       examName,
       className,
       sectionName,
       examTerm,
-      passingMarks,
       totalMarks,
+      passingMarks,
       examStartDate,
       examEndDate,
       examComment,
       examSyllabus,
-      sendMailToParentsAndStudents,
-      sendSMSToStudents,
-      sendSMSToParents
+      notifyByMail,
+      notifyBySMSStudents,
+      notifyBySMSParents
     });
 
-    await newExam.save();
-    res.status(201).json({ message: 'Exam created successfully', exam: newExam });
+    await exam.save();
+    res.status(201).json({ message: 'Exam created successfully', data: exam });
   } catch (error) {
     res.status(500).json({ message: 'Error creating exam', error: error.message });
   }
@@ -46,7 +46,10 @@ exports.createExam = async (req, res) => {
 // Get all exams
 exports.getAllExams = async (req, res) => {
   try {
-    const exams = await Exam.find().sort({ createdAt: -1 });
+    const exams = await Exam.find()
+      .populate('className')
+      .populate('sectionName')
+      .populate('examTerm');
     res.status(200).json(exams);
   } catch (error) {
     res.status(500).json({ message: 'Error fetching exams', error: error.message });
@@ -56,7 +59,10 @@ exports.getAllExams = async (req, res) => {
 // Get exam by ID
 exports.getExamById = async (req, res) => {
   try {
-    const exam = await Exam.findById(req.params.id);
+    const exam = await Exam.findById(req.params.id)
+      .populate('className')
+      .populate('sectionName')
+      .populate('examTerm');
     if (!exam) return res.status(404).json({ message: 'Exam not found' });
     res.status(200).json(exam);
   } catch (error) {
@@ -64,58 +70,27 @@ exports.getExamById = async (req, res) => {
   }
 };
 
-// Update exam by ID
+// Update exam
 exports.updateExam = async (req, res) => {
   try {
-    const exam = await Exam.findById(req.params.id);
+    const updatedData = { ...req.body };
+    if (req.file) updatedData.examSyllabus = req.file.path;
+
+    const exam = await Exam.findByIdAndUpdate(req.params.id, updatedData, { new: true });
     if (!exam) return res.status(404).json({ message: 'Exam not found' });
 
-    const {
-      examName,
-      className,
-      sectionName,
-      examTerm,
-      passingMarks,
-      totalMarks,
-      examStartDate,
-      examEndDate,
-      examComment,
-      sendMailToParentsAndStudents,
-      sendSMSToStudents,
-      sendSMSToParents
-    } = req.body;
-
-    if (req.file) {
-      exam.examSyllabus = req.file.filename;
-    }
-
-    Object.assign(exam, {
-      examName,
-      className,
-      sectionName,
-      examTerm,
-      passingMarks,
-      totalMarks,
-      examStartDate,
-      examEndDate,
-      examComment,
-      sendMailToParentsAndStudents,
-      sendSMSToStudents,
-      sendSMSToParents
-    });
-
-    await exam.save();
-    res.status(200).json({ message: 'Exam updated successfully', exam });
+    res.status(200).json({ message: 'Exam updated successfully', data: exam });
   } catch (error) {
     res.status(500).json({ message: 'Error updating exam', error: error.message });
   }
 };
 
-// Delete exam by ID
+// Delete exam
 exports.deleteExam = async (req, res) => {
   try {
     const exam = await Exam.findByIdAndDelete(req.params.id);
     if (!exam) return res.status(404).json({ message: 'Exam not found' });
+
     res.status(200).json({ message: 'Exam deleted successfully' });
   } catch (error) {
     res.status(500).json({ message: 'Error deleting exam', error: error.message });

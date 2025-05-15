@@ -49,11 +49,11 @@ exports.getClassById = async (req, res) => {
 // Update class by ID
 exports.updateClass = async (req, res) => {
   try {
-    const { className, classNumericValue, studentCapacity } = req.body;
+    const { className, classNumericValue, studentCapacity, ClassSection } = req.body;
 
     const updated = await Classes.findByIdAndUpdate(
       req.params.id,
-      { className, classNumericValue, studentCapacity },
+      { className, classNumericValue, studentCapacity, ClassSection },
       { new: true, runValidators: true }
     );
 

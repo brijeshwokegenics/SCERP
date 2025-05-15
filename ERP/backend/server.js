@@ -27,6 +27,25 @@ const otherPaymentRoutes = require("./routes/otherPaymentRoutes");
 const incomeRoutes = require("./routes/incomeRoutes")
 const StudentClassRoutineRoute =  require("./routes/studentClassRoutineRoutes");
 const classRoutes = require('./routes/classRoutes')
+const examHallRoutes = require('./routes/examHallRoutes')
+const examRoutes = require('./routes/examRoutes');
+const termCategoryRoutes = require('./routes/termCategoryRoutes');
+const markRoutes = require('./routes/markRoutes');
+const gradeRoutes = require('./routes/gradeRoutes');
+const attendanceRoutes = require('./routes/attendanceRoutes');
+
+const feeComponentRoutes = require('./routes/feeComponentRoutes');
+// const feeStructureRoutes = require('./routes/feeStructureRoutes');
+
+
+
+const feeStructureRoutes = require('./routes/fee/feeStructureRoutes');
+const studentFeeRoutes = require('./routes/fee/studentFeeRoutes');
+const paymentRoute = require('./routes/fee/paymentRoutes');
+const hostelFeeRoutes = require('./routes/fee/hostelFeeRoutes');
+const campusRoutes = require('./routes/fee/campusRoutes');
+const auditLogRoutes = require('./routes/fee/auditLogRoutes');
+const reportRoutes = require('./routes/fee/reportRoutes');
 
 
 const path = require('path');
@@ -77,12 +96,37 @@ app.use('/api/holidays', holidayRoutes);
 app.use('/api/hostels', hostelRoutes);
 app.use('/api/rooms', roomRoutes);
 app.use('/api/beds', bedRoutes);
-app.use('/api/fee-payments', feePaymentRoutes);
+// app.use('/api/fee-payments', feePaymentRoutes);
 app.use('/api/expenses', expenseRoutes);
 app.use('/api/other-payment', otherPaymentRoutes);
 app.use('/api/income', incomeRoutes);
 app.use('/api/student-class-routine', StudentClassRoutineRoute);
 app.use('/api/class', classRoutes);
+app.use('/api/exam', examRoutes);
+app.use('/api/term-category', termCategoryRoutes);
+app.use('/api/exam-halls', examHallRoutes)
+app.use('/api/marks', markRoutes);
+app.use('/api/grades', gradeRoutes);
+app.use('/api/attendance', attendanceRoutes);
+// app.use('/api/feestructures', feeStructureRoutes);
+// app.use('/api/feecomponents', feeComponentRoutes);
+
+
+
+app.use('/api/fee-structure', feeStructureRoutes);
+app.use('/api/student-fee', studentFeeRoutes);
+app.use('/api/payment', paymentRoute);
+app.use('/api/hostel-fee', hostelFeeRoutes);
+app.use('/api/campus', campusRoutes);
+app.use('/api/report', reportRoutes);
+app.use('/api/audit', auditLogRoutes);
+
+
+
+
+
+
+
 
 
 const PORT = process.env.PORT || 4000;

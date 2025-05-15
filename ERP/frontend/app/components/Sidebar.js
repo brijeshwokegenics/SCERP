@@ -100,14 +100,29 @@ const menuItems = [
     ],
   },
   { label: "Class Routine",  key: "classroutine",icon: <CalendarIcon className="h-5 w-5" />, href: "/classroutine" },
-  { label: "Attendance", icon: <ClipboardListIcon className="h-5 w-5" />, href: "/attendance" },
+
+  {
+    label: "Attendance",
+    icon: <DocumentTextIcon className="h-5 w-5" />,
+    key: "attendance",
+    subItems: [
+      { label: "Student Attendance", href: "/attendance" },
+
+      { label: "Teacher & Staff Attendance", href: "/attendance/teacher-attendance" },
+
+    ],
+  },
   {
     label: "Exam",
     icon: <DocumentTextIcon className="h-5 w-5" />,
     key: "exam",
     subItems: [
+      { label: "Exam", href: "/exam/exam" },
+
+      { label: "Exam Hall", href: "/exam/exam-hall" },
+      { label: "Marks", href: "/exam/marks" },
       { label: "Exam Schedule", href: "/exam/exam-schedule" },
-      { label: "Exam Grades", href: "/exam/exam-grades" },
+      { label: "Exam Grades", href: "/exam/grade" },
     ],
   },
   { label: "Transport", icon: <TruckIcon className="h-5 w-5" />, href: "/transport" },

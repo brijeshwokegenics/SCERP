@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchTeachers, createTeacher, updateTeacher } from ".././../../store/teacherSlice";
+import { fetchTeachers, createTeacher, updateTeacher, deleteTeacher  } from ".././../../store/teacherSlice";
 
 const REQUIRED_FIELDS = ['firstName', 'lastName', 'email', 'school'];
 
@@ -148,6 +148,8 @@ export default function TeachersPage() {
   };
 
   const handleSave = async () => {
+   
+    
     if (!validateForm()) {
       console.log("Form validation failed:", errors);
       return;
@@ -162,6 +164,7 @@ export default function TeachersPage() {
       };
   
       let result;
+    
       if (editingTeacher) {
         result = await dispatch(updateTeacher({ id: editingTeacher._id, teacherData: formattedData }));
       } else {
@@ -169,7 +172,7 @@ export default function TeachersPage() {
       }
   
       console.log("Dispatch result:", result);
-  
+      result = await dispatch(createTeacher(formattedData));
       // Check if the dispatch action has any errors
       if (result.error) {
         throw new Error(result.error.message || "Something went wrong");
@@ -184,7 +187,19 @@ export default function TeachersPage() {
       }));
     }
   };
+  const handleDelete = async (id) => {
+    const confirmed = window.confirm("Are you sure you want to delete this teacher?");
+    if (!confirmed) return;
   
+    try {
+      const result = await dispatch(deleteTeacher(id));
+      if (result.error) {
+        throw new Error(result.error.message || "Delete failed");
+      }
+    } catch (error) {
+      alert("Error deleting teacher: " + error.message);
+    }
+  };
   const handleCloseDialog = () => {
     setOpenDialog(false);
     setTeacherData(initialTeacherData);
@@ -225,10 +240,11 @@ export default function TeachersPage() {
       ...(min !== undefined && { min }),
       ...(pattern && { pattern })
     };
-
+  
+    
     return (
       <div className="space-y-1">
-        <label className="block text-gray-600 font-medium">{displayLabel}</label>
+        <label className="block  font-medium">{displayLabel}</label>
         {isSelect ? (
           <select {...commonProps}>
             <option value="">Select {label}</option>
@@ -251,7 +267,7 @@ export default function TeachersPage() {
   };
 console.log(teachers)
   return (
-    <div className="max-w-4xl w-3/4 mx-auto p-6 overflow-y-auto bg-gray-100 shadow-lg rounded-lg" style={{ height: "75vh" }}>
+    <div className="max-w-4xl w-full mt-5 mx-auto p-6 overflow-y-auto  shadow-lg rounded-lg" style={{ height: "75vh" }}>
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-3xl font-semibold text-gray-700">Teachers List</h1>
         <button 
@@ -265,38 +281,66 @@ console.log(teachers)
       {loading ? (
         <div className="flex justify-center my-6 text-lg text-gray-500">Loading...</div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {teachers.map((teacher) => (
-            <div key={teacher._id} className="p-6 bg-white border shadow-lg rounded-lg">
-              <h2 className="text-xl font-semibold text-gray-800">
-                {teacher.firstName} {teacher.lastName}
-              </h2>
-              <p className="text-sm text-gray-500">{teacher.email}</p>
-              <p className="text-sm text-gray-600">📞 {teacher.phoneNumber || "N/A"}</p>
-              <div className="mt-2 text-sm text-gray-600">
-                <p>Subjects: {Array.isArray(teacher.subjects) ? teacher.subjects.join(", ") : "N/A"}</p>
-                <p>Designation: {teacher.designation || "N/A"}</p>
-              </div>
-              <button 
-                className="mt-3 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300"
-                onClick={() => {
-                  setEditingTeacher(teacher);
-                  setTeacherData({
-                    ...teacher,
-                    subjects: Array.isArray(teacher.subjects) ? teacher.subjects : [],
-                    departments: Array.isArray(teacher.departments) ? teacher.departments : [],
-                    certifications: Array.isArray(teacher.certifications) ? teacher.certifications : [],
-                    dateOfBirth: teacher.dateOfBirth ? new Date(teacher.dateOfBirth).toISOString().split('T')[0] : "",
-                    joiningDate: teacher.joiningDate ? new Date(teacher.joiningDate).toISOString().split('T')[0] : ""
-                  });
-                  setOpenDialog(true);
-                }}
-              >
-                Edit
-              </button>
-            </div>
-          ))}
-        </div>
+        <div className="overflow-x-auto rounded-lg shadow">
+        <table className="min-w-full bg-white">
+          <thead className="bg-gray-100 text-left text-sm font-semibold text-gray-700">
+            <tr>
+              <th className="py-3 px-4">Name</th>
+              <th className="py-3 px-4">Email</th>
+              <th className="py-3 px-4">Phone</th>
+              <th className="py-3 px-4">Subjects</th>
+              <th className="py-3 px-4">Designation</th>
+              <th className="py-3 px-4">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {teachers.map((teacher) => (
+              <tr key={teacher._id} className="border-b hover:bg-gray-50">
+                <td className="py-3 px-4">
+                  {teacher.firstName} {teacher.lastName}
+                </td>
+                <td className="py-3 px-4">{teacher.email}</td>
+                <td className="py-3 px-4">{teacher.phoneNumber || "N/A"}</td>
+                <td className="py-3 px-4">
+                  {Array.isArray(teacher.subjects) ? teacher.subjects.join(", ") : "N/A"}
+                </td>
+                <td className="py-3 px-4">{teacher.designation || "N/A"}</td>
+                <td className="py-3 px-4 flex gap-2">
+  <button
+    onClick={() => {
+      setEditingTeacher(teacher);
+      setTeacherData({
+        ...teacher,
+        subjects: Array.isArray(teacher.subjects) ? teacher.subjects : [],
+        departments: Array.isArray(teacher.departments) ? teacher.departments : [],
+        certifications: Array.isArray(teacher.certifications) ? teacher.certifications : [],
+        dateOfBirth: teacher.dateOfBirth
+          ? new Date(teacher.dateOfBirth).toISOString().split("T")[0]
+          : "",
+        joiningDate: teacher.joiningDate
+          ? new Date(teacher.joiningDate).toISOString().split("T")[0]
+          : "",
+      });
+      setOpenDialog(true);
+    }}
+    className="text-blue-600 hover:underline"
+  >
+    Edit
+  </button>
+  <button
+    onClick={() => handleDelete(teacher._id)}
+    className="text-red-600 hover:underline"
+  >
+    Delete
+  </button>
+</td>
+
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      
       )}
 
       {openDialog && (

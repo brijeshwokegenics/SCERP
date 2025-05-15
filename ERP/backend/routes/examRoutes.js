@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const examController = require('../controllers/examController');
-const upload = require('../middleware/upload');
+const upload = require('../middlewares/upload'); // For file upload
 
+// Routes
 router.post('/', upload.single('examSyllabus'), examController.createExam);
 router.get('/', examController.getAllExams);
 router.get('/:id', examController.getExamById);
