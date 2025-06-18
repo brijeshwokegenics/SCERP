@@ -35,7 +35,9 @@ import AttendancePage from "../attendance/student-attendance/page.js"
 import TeacherAttendancePage from "../attendance/teacher-attendance/page.js"
 import DashboardPage from "./main/page.js";
 import TeacherDashboardPage from "./teacher-dashboard/page.js";
-
+import CampusPage from "../campus/page.js"
+import FeeComponentPage from "../accounts/fee-component/page.js";
+import FeeStructureManager from "../accounts/fee-structure/page.js"
 const Dashboard = () => {
   const { token, user } = useSelector((state) => state.auth);
   const router = useRouter();
@@ -164,8 +166,16 @@ const Dashboard = () => {
             return <AttendancePage />
 
             case "attendance/teacher-attendance":
-              return <TeacherAttendancePage />
+              return <TeacherAttendancePage />  
+              
+              case "campus":
+              return <CampusPage />
+             case "accounts/fee-component":
+              
+              return <FeeComponentPage />
+               case "accounts/fee-structure":
 
+              return < FeeStructureManager/>
       default:
         return <p>Content for {currentPage} is not defined.</p>;
     }

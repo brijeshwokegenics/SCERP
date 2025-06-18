@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:4000/api/fee-structures';
+const BASE_URL = 'http://localhost:4000/api/fee-structure';
 
 const getHeaders = (token) => ({
   headers: {
@@ -20,6 +20,7 @@ export const createFeeStructure = createAsyncThunk(
   async ({ formData, token }, { rejectWithValue }) => {
     try {
       const res = await axios.post(`${BASE_URL}`, formData, getHeaders(token));
+   
       return res.data.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
@@ -27,13 +28,27 @@ export const createFeeStructure = createAsyncThunk(
   }
 );
 
-// 📥 Get All Fee Structures
 export const getAllFeeStructures = createAsyncThunk(
   'feeStructure/getAll',
   async ({ token }, { rejectWithValue }) => {
     try {
-      const res = await axios.get(`${BASE_URL}`, getHeaders(token));
-      return res.data.data;
+      const res = await axios.get(BASE_URL, getHeaders(token));
+      return res.data.feeStructures; // ✅ Only return the actual array
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || error.message);
+    }
+  }
+);
+
+
+// 🔍 Get Fee Structure By ID
+export const getFeeStructureById = createAsyncThunk(
+  'feeStructure/getById',
+  async ({ id, token }, { rejectWithValue }) => {
+    try {
+      const res = await axios.get(`${BASE_URL}/${id}`, getHeaders(token));
+     console.log("res Id" + id)
+      return res.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
     }
@@ -46,6 +61,7 @@ export const updateFeeStructure = createAsyncThunk(
   async ({ id, formData, token }, { rejectWithValue }) => {
     try {
       const res = await axios.put(`${BASE_URL}/${id}`, formData, getHeaders(token));
+        console.log("res" + res.data.data)
       return res.data.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
@@ -74,13 +90,14 @@ const feeStructureSlice = createSlice({
   name: 'feeStructure',
   initialState: {
     structures: [],
+    currentFeeStructure: null,
     loading: false,
     error: null,
-    currentStructure: null,
   },
   reducers: {
     clearCurrentStructure: (state) => {
-      state.currentStructure = null;
+      state.currentFeeStructure = null;
+      state.error = null;
     },
   },
   extraReducers: (builder) => {
@@ -101,19 +118,62 @@ const feeStructureSlice = createSlice({
       })
 
       // ➕ Create
+      .addCase(createFeeStructure.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
       .addCase(createFeeStructure.fulfilled, (state, action) => {
+        state.loading = false;
         state.structures.unshift(action.payload);
+      })
+      .addCase(createFeeStructure.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      // 🔍 Get By ID
+      .addCase(getFeeStructureById.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getFeeStructureById.fulfilled, (state, action) => {
+        state.loading = false;
+        state.currentFeeStructure = action.payload;
+      })
+      .addCase(getFeeStructureById.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+        state.currentStructure = null;
       })
 
       // 🖊️ Update
+      .addCase(updateFeeStructure.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
       .addCase(updateFeeStructure.fulfilled, (state, action) => {
+        state.loading = false;
         const index = state.structures.findIndex(s => s._id === action.payload._id);
         if (index !== -1) state.structures[index] = action.payload;
+        state.currentStructure = null;
+      })
+      .addCase(updateFeeStructure.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       })
 
       // ❌ Delete
+      .addCase(deleteFeeStructure.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
       .addCase(deleteFeeStructure.fulfilled, (state, action) => {
+        state.loading = false;
         state.structures = state.structures.filter(s => s._id !== action.payload);
+      })
+      .addCase(deleteFeeStructure.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       });
   },
 });

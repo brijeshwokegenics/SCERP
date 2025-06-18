@@ -5,6 +5,9 @@ const auditLogSchema = new mongoose.Schema({
     type: String, 
     required: true, 
     enum: [
+      'Fee Structure Created',
+      'Fee Structure Deleted',
+      'Fee Structure Updated',
       'Payment Made', 
       'Fee Updated', 
       'Fee Assigned', 

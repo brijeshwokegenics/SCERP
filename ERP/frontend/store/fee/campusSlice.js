@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:4000/api/campuses';
+const BASE_URL = 'http://localhost:4000/api/campus';
 
 const getHeaders = (token) => ({
   headers: {
@@ -20,7 +20,7 @@ export const createCampus = createAsyncThunk(
   async ({ formData, token }, { rejectWithValue }) => {
     try {
       const res = await axios.post(`${BASE_URL}`, formData, getHeaders(token));
-      return res.data.data;
+      return res.data.campus; // ✅ correct key from backend
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
     }
@@ -28,12 +28,12 @@ export const createCampus = createAsyncThunk(
 );
 
 // 🔵 Get All Campuses
-export const getAllCampuses = createAsyncThunk(
+export const getAllCampus = createAsyncThunk(
   'campus/getAll',
   async ({ token }, { rejectWithValue }) => {
     try {
       const res = await axios.get(`${BASE_URL}`, getHeaders(token));
-      return res.data.data;
+      return res.data.campuses; // ✅ correct key from backend
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
     }
@@ -46,7 +46,7 @@ export const getCampusById = createAsyncThunk(
   async ({ id, token }, { rejectWithValue }) => {
     try {
       const res = await axios.get(`${BASE_URL}/${id}`, getHeaders(token));
-      return res.data.data;
+      return res.data.campus;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
     }
@@ -59,7 +59,7 @@ export const updateCampus = createAsyncThunk(
   async ({ id, formData, token }, { rejectWithValue }) => {
     try {
       const res = await axios.put(`${BASE_URL}/${id}`, formData, getHeaders(token));
-      return res.data.data;
+      return res.data.campus;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
     }
@@ -86,7 +86,7 @@ export const deleteCampus = createAsyncThunk(
 const campusSlice = createSlice({
   name: 'campus',
   initialState: {
-    campuses: [],
+    campuses: [], // ✅ plural for list
     currentCampus: null,
     loading: false,
     error: null,
@@ -100,17 +100,16 @@ const campusSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-
       // 🔄 Get All
-      .addCase(getAllCampuses.pending, (state) => {
+      .addCase(getAllCampus.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(getAllCampuses.fulfilled, (state, action) => {
+      .addCase(getAllCampus.fulfilled, (state, action) => {
         state.loading = false;
         state.campuses = action.payload;
       })
-      .addCase(getAllCampuses.rejected, (state, action) => {
+      .addCase(getAllCampus.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
@@ -122,13 +121,17 @@ const campusSlice = createSlice({
 
       // ➕ Create
       .addCase(createCampus.fulfilled, (state, action) => {
-        state.campuses.unshift(action.payload);
+        if (action.payload) {
+          state.campuses.unshift(action.payload);
+        }
       })
 
       // 🖊️ Update
       .addCase(updateCampus.fulfilled, (state, action) => {
         const index = state.campuses.findIndex(c => c._id === action.payload._id);
-        if (index !== -1) state.campuses[index] = action.payload;
+        if (index !== -1) {
+          state.campuses[index] = action.payload;
+        }
       })
 
       // ❌ Delete

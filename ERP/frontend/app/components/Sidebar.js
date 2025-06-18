@@ -74,6 +74,9 @@ const menuItems = [
     icon: <CurrencyRupeeIcon className="h-5 w-5" />,
     key: "accounts" || "payment",
     subItems: [
+      
+    {label: "Fee Component", href:"/accounts/fee-component"}, 
+    {label: "Fee Structure", href:"/accounts/fee-structure"},
       { label: "Add Fees", href: "/accounts/add-fee" },
       { label: "All Fee Collection", href: "/accounts/all-fee-details" },
       { label: "Other Payment", href: "/payment/other-payment" },  
@@ -159,6 +162,11 @@ const menuItems = [
     icon: <CogIcon className="h-5 w-5" />,
     href:"school/",
     key: "school",},
+    {
+    label: "Campus",
+    icon: <CogIcon className="h-5 w-5" />,
+    href:"campus/",
+    key: "campus",},
 
   {
     label: "Settings",

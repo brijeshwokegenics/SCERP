@@ -34,7 +34,7 @@ const markRoutes = require('./routes/markRoutes');
 const gradeRoutes = require('./routes/gradeRoutes');
 const attendanceRoutes = require('./routes/attendanceRoutes');
 
-const feeComponentRoutes = require('./routes/feeComponentRoutes');
+const feeComponentRoutes = require('./routes/fee/feeComponentRoutes');
 // const feeStructureRoutes = require('./routes/feeStructureRoutes');
 
 
@@ -120,7 +120,7 @@ app.use('/api/hostel-fee', hostelFeeRoutes);
 app.use('/api/campus', campusRoutes);
 app.use('/api/report', reportRoutes);
 app.use('/api/audit', auditLogRoutes);
-
+app.use('/api/fee-components',feeComponentRoutes)
 
 
 

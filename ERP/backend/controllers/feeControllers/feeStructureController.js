@@ -4,7 +4,7 @@ const AuditLog = require('../../models/feeModels/AuditLog');
 // @desc Create Fee Structure
 exports.createFeeStructure = async (req, res, next) => {
   try {
-    const { className, stream, academicYear, feeComponents } = req.body;
+    const { className, stream, academicYear, feeComponents, campus } = req.body;
 
     const feeStructure = await FeeStructure.create({
       className,
@@ -12,7 +12,7 @@ exports.createFeeStructure = async (req, res, next) => {
       academicYear,
       feeComponents,
       createdBy: req.user._id,
-      campus: req.user.campus || null
+      campus
     });
 
     await AuditLog.create({
@@ -38,6 +38,30 @@ exports.getAllFeeStructures = async (req, res, next) => {
   }
 };
 
+exports.getFeeStructureById = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    // Validate MongoDB ObjectId format
+    if (!id.match(/^[0-9a-fA-F]{24}$/)) {
+      return res.status(400).json({ success: false, message: 'Invalid Fee Structure ID format' });
+    }
+
+    const feeStructure = await FeeStructure.findById(id)
+      .populate('campus', 'name')
+      .populate('feeComponents', 'label amount');
+
+    if (!feeStructure) {
+      return res.status(404).json({ success: false, message: 'Fee Structure not found' });
+    }
+
+    res.status(200).json({ success: true, data: feeStructure });
+  } catch (error) {
+    console.error('Error in getFeeStructureById:', error);
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
+};
+
 // @desc Update Fee Structure
 exports.updateFeeStructure = async (req, res, next) => {
   try {
@@ -55,11 +79,12 @@ exports.updateFeeStructure = async (req, res, next) => {
       changedBy: req.user._id
     });
 
-    res.status(200).json({ success: true, feeStructure });
+    res.status(200).json({ success: true, data: feeStructure }); // ✅ fixed key
   } catch (error) {
     next(error);
   }
 };
+
 
 // @desc Delete Fee Structure
 exports.deleteFeeStructure = async (req, res, next) => {

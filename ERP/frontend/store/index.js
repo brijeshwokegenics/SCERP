@@ -43,14 +43,15 @@ import examHallReducer from './examHallSlice';
 import markReducer from './markSlice';
 import gradeReducer from './gradeSlice';
 import attendanceReducer from './attendanceSlice';
-import feeComponentReducer from'./feeComponentSlice';
+//import feeComponentReducer from'./feeComponentSlice';
 // import feeStructureReducer from './feeStructureSlice';
 
-import feeStructureReducer from './fee/feeStructureSlice';
+import feeStructuresReducer from './fee/feeStructureSlice';
 import studentFeeReducer from './fee/studentFeeSlice';
 import paymentReducer from './fee/paymentSlice';
 import reportReducer from './fee/reportSlice';
-
+import campusReducer from './fee/campusSlice';
+import feeComponentsReducer from './fee/feeComponentSlice';
 
 const persistConfig = {
   key: 'root',
@@ -93,16 +94,17 @@ const store = configureStore({
     marks: markReducer,
     grades: gradeReducer,
     attendance: attendanceReducer,
-    feeComponent: feeComponentReducer,
+    //feeComponent: feeComponentReducer,
     // feeStructure: feeStructureReducer,
     
 
 
-    feeStructure: feeStructureReducer,
+    feeStructure: feeStructuresReducer,
     studentFee: studentFeeReducer,
     payment: paymentReducer,
     report: reportReducer,
-
+    campus: campusReducer,
+    feeComponent: feeComponentsReducer,
 
 
     // Add other reducers here if needed

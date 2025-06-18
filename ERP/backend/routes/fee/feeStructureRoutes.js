@@ -4,7 +4,8 @@ const {
   createFeeStructure,
   getAllFeeStructures,
   updateFeeStructure,
-  deleteFeeStructure
+  deleteFeeStructure,
+  getFeeStructureById
 } = require('../../controllers/feeControllers/feeStructureController');
 const auth = require('../../middlewares/auth'); // Auth middleware to protect routes
 const { isSchoolAdmin } = require('../../middlewares/roles');
@@ -18,6 +19,7 @@ router.get('/', auth, isSchoolAdmin, getAllFeeStructures);
 // Update
 router.put('/:id', auth, isSchoolAdmin, updateFeeStructure);
 
+router.get('/:id', auth, isSchoolAdmin, getFeeStructureById);
 // Delete
 router.delete('/:id', auth, isSchoolAdmin, deleteFeeStructure);
 
